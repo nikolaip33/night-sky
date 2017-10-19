@@ -14,7 +14,13 @@ class NightSky::CLI
       input = gets.strip.to_i
     end
     NightSky::Scraper.new(input).make_events
-    search_events
+    list_events_with_index(NightSky::Event.meteor_showers)
+    puts "Which event would you like more information for?"
+    input = 0
+    until input.between?(1,NightSky::Event.meteor_showers.length)
+      input = gets.chomp.to_i
+    end
+    puts NightSky::Event.meteor_showers[input-1].description
   end
 
   def events_menu
