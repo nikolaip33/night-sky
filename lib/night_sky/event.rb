@@ -32,6 +32,10 @@ class NightSky::Event
     all.select { |e| e.name.downcase.include?(term.downcase) }
   end
 
+  def self.search_by(term)
+    all.select { |e| e.description.downcase.include?(term.downcase) }
+  end
+
   def self.lunar_calendar
     select_by("Moon")
   end

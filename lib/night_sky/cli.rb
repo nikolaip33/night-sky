@@ -1,5 +1,6 @@
 class NightSky::CLI
 
+  EXIT = ["exit", "main", "main menu"]
   attr_accessor :ns, :year
 
   def call
@@ -14,11 +15,13 @@ class NightSky::CLI
   end
 
   def main_menu
-    puts "\n------ The Night Sky for #{self.year} ------"
-    puts "(1). Lunar Calendar"
-    puts "(2). Meteor Showers"
-    puts "(3). Planetary Viewing"
-    puts "(4). Manual Search"
+    puts "\n----------------- The Night Sky for #{self.year} -------------------"
+    puts "\n(1). Lunar Calendar - Moon Phase Dates & Times"
+    puts "(2). Meteor Showers - Information, Dates & Times"
+    puts "(3). Planetary Viewing - Best Gazing Dates & Times"
+    puts "(4). Seasonal - Equinox and Solstice Dates & Times"
+    puts "(5). Ecplises - Information, Dates & Times"
+    puts "(6). Manual Search - Search By Term"
   end
 
   def list_events_with_index(events)
@@ -29,23 +32,8 @@ class NightSky::CLI
 
     puts "Which event would you like more information for?"
     input = 0
-    until input.between?(1,events.length)
-      input = gets.chomp.to_i
-    end
+    input = gets.chomp.to_i until input.between?(1,events.length)
     puts events[input-1].description
-  end
-
-  def search_events
-    puts "\nSearch for an Astrononical Event"
-    input = gets.chomp
-    results = NightSky::Event.select_by(input)
-    if results.length == 0
-      puts "\nSorry, 0 matches were found."
-    else
-      puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
-      list_events(results)
-    end
-    search_events
   end
 
   def set_year
@@ -59,7 +47,26 @@ class NightSky::CLI
   def introduction
     puts "\nWelcome to The Night Sky"
     puts "\nThis program can provide you with dates and information on a variety of astronomical events."
-    puts "To get started, we would like to know what year you are interesting in searching through."
+    puts "To get started, we would like to know what year you are interested in searching through."
+  end
+
+  def search_events
+    puts "\n--------- Search for an Astrononical Event in #{self.year} ---------\n"
+    input = gets.chomp.downcase
+    main_menu if EXIT.include?(input.downcase)
+    results = ns.search_by(input)
+    if results.length == 0
+      puts "\nSorry, 0 matches were found."
+    else
+      puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
+      list_events_with_index(results)
+    end
+    search_events
+  end
+
+
+  def quit
+    puts "\nI hope you enjoy The Night Sky"
   end
 
 end #class NightSky::CLI
