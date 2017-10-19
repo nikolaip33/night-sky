@@ -14,7 +14,7 @@ class NightSky::Scraper
 
   def make_events
     scrape_events.each do |event|
-      NightSky::Event.new_from_item(event)
+      NightSky::Event.new_from_item(event, self.year)
     end
   end
 

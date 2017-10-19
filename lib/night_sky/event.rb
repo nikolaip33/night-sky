@@ -1,10 +1,12 @@
 class NightSky::Event
 
-  attr_accessor :name, :date, :year, :description
+  attr_accessor :name, :date, :date_full, :year, :description
+  # @@all = Hash.new([])
   @@all = []
 
   def initialize(name, date, year, description)
     @name = name
+    @date_full = date
     @date = abreviate_date(date)
     @year = year
     @description = description
@@ -17,17 +19,17 @@ class NightSky::Event
     parts.join(" ")
   end
 
-  def self.new_from_item(item)
+  def self.new_from_item(item, year)
     self.new(
       item.search(".title-text").text.strip.gsub(".",""),
       item.search(".date-text").text.strip,
-      2017,
+      year,
       item.search("p").text.strip
     )
   end
 
   def self.select_by(term)
-    @@all.select { |e| e.name.downcase.include?(term.downcase) }
+    all.select { |e| e.name.downcase.include?(term.downcase) }
   end
 
   def self.lunar_calendar
@@ -40,6 +42,10 @@ class NightSky::Event
 
   def self.all
     @@all
+  end
+
+  def self.reset!
+    @@all.clear
   end
 
 end #class NightSky::Event
