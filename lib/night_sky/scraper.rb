@@ -1,7 +1,11 @@
 class NightSky::Scraper
+  attr_reader :year
+  def initialize(year="2017")
+    @year = year
+  end
 
   def get_page
-    Nokogiri::HTML(open("http://www.seasky.org/astronomy/astronomy-calendar-2017.html"))
+    Nokogiri::HTML(open("http://www.seasky.org/astronomy/astronomy-calendar-#{self.year}.html"))
   end
 
   def scrape_events
