@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NightSky
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/night_sky`. To experiment with that code, run `bin/console` for an interactive prompt.
@@ -41,3 +42,6 @@ The gem is available as open source under the terms of the [MIT License](http://
 ## Code of Conduct
 
 Everyone interacting in the NightSky project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/night_sky/blob/master/CODE_OF_CONDUCT.md).
+=======
+# night-sky
+>>>>>>> 875999ffa2c1029246624f6be11f3082ea0ddeb6
