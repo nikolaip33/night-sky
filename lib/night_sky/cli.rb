@@ -19,12 +19,13 @@ class NightSky::CLI
   end
 
   def search_events
-    puts "Search for an Astrononical Event"
+    puts "\nSearch for an Astrononical Event"
     input = gets.chomp
     results = NightSky::Event.select_by(input)
     if results.length == 0
-      puts "Sorry, 0 results were found."
+      puts "\nSorry, 0 matches were found."
     else
+      puts results.length == 1 ? "We found 1 match:" : "We found #{results.length} matches:"
       list_events(results)
     end
     search_events
