@@ -21,7 +21,7 @@ class NightSky::CLI
     puts "2. Meteor Showers - Information, Dates & Times"
     puts "3. Planetary Viewing - Best Gazing Dates & Times"
     puts "4. Seasonal - Equinox and Solstice Dates & Times"
-    puts "5. Ecplises - Information, Dates & Times"
+    puts "5. Eclpises - Information, Dates & Times"
     puts "6. Search - Search By Keyword or Month"
   end
 
