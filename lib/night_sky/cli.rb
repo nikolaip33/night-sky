@@ -7,7 +7,8 @@ class NightSky::CLI
 
   def list_events
     NightSky::Event.all.each.with_index(1) do |e, i|
-      puts "#{i}. #{e.date} - #{e.name}"
+      puts " #{i}. #{e.date} - #{e.name}" if i < 10
+      puts "#{i}. #{e.date} - #{e.name}" if i >= 10
     end
   end
 
