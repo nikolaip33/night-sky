@@ -1,15 +1,15 @@
 class NightSky::Event
 
-  attr_accessor :name, :date, :date_full, :year, :description
+  attr_accessor :name, :date, :date_full, :year, :details
   # @@all = Hash.new([])
   @@all = []
 
-  def initialize(name, date, year, description)
+  def initialize(name, date, year, details)
     @name = name
     @date_full = date
     @date = abreviate_date(date)
     @year = year
-    @description = description
+    @details = details
     @@all << self
   end
 
@@ -33,7 +33,7 @@ class NightSky::Event
   end
 
   def self.search_by(term)
-    all.select { |e| e.description.downcase.include?(term.downcase) }
+    all.select { |e| e.details.downcase.include?(term.downcase) }
   end
 
   def self.lunar_calendar
