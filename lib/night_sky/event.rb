@@ -27,11 +27,15 @@ class NightSky::Event
   end
 
   def self.select_by(term)
-    @@all.select { |e| e.name.include?(term) }
+    @@all.select { |e| e.name.downcase.include?(term.downcase) }
   end
 
   def self.lunar_calendar
     select_by("Moon")
+  end
+
+  def self.meteor_showers
+    select_by("Meteor")
   end
 
   def self.all
