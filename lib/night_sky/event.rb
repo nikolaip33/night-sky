@@ -5,10 +5,16 @@ class NightSky::Event
 
   def initialize(name, date, year, description)
     @name = name
-    @date = date
+    @date = abreviate_date(date)
     @year = year
     @description = description
     @@all << self
+  end
+
+  def abreviate_date(date)
+    parts = date.split(" ")
+    parts[0] = parts[0][0..2]
+    parts.join(" ")
   end
 
   def self.new_from_item(item)
@@ -18,6 +24,10 @@ class NightSky::Event
       2017,
       item.search("p").text.strip
     )
+  end
+
+  def self.lunar_calendar
+    @@all.select { |event| event.name.include?("Moon") }
   end
 
   def self.all
