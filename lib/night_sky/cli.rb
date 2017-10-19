@@ -1,33 +1,24 @@
 class NightSky::CLI
 
+  attr_accessor :ns, :year
+
   def call
-    # NightSky::Scraper.new.make_events
-    # NightSky::Scraper.new(2018).make_events
+    self.ns = NightSky::Event #makes calling Event class methods cleaner
     start
   end
 
   def start
-    puts "Welcome to The Night Sky\n"
-    puts "What year would you like to search?"
-    input = 0
-    until input.between?(2017,2030)
-      input = gets.strip.to_i
-    end
-    NightSky::Scraper.new(input).make_events
-    list_events_with_index(NightSky::Event.meteor_showers)
-    puts "Which event would you like more information for?"
-    input = 0
-    until input.between?(1,NightSky::Event.meteor_showers.length)
-      input = gets.chomp.to_i
-    end
-    puts NightSky::Event.meteor_showers[input-1].description
+    introduction
+    set_year
+    main_menu
   end
 
-  def events_menu
-    puts "1. Lunar Calendar"
-    puts "2. Meteor Showers"
-    puts "3. Planetary Viewing"
-    puts "4. Manual Search"
+  def main_menu
+    puts "\n------ The Night Sky for #{self.year} ------"
+    puts "(1). Lunar Calendar"
+    puts "(2). Meteor Showers"
+    puts "(3). Planetary Viewing"
+    puts "(4). Manual Search"
   end
 
   def list_events_with_index(events)
@@ -35,12 +26,13 @@ class NightSky::CLI
       puts " #{i}. #{e.date} - #{e.name}" if i < 10
       puts "#{i}. #{e.date} - #{e.name}" if i >= 10
     end
-  end
 
-  def list_lunar_calendar
-    NightSky::Event.lunar_calendar.each do |e|
-      puts "#{e.date} - #{e.name}"
+    puts "Which event would you like more information for?"
+    input = 0
+    until input.between?(1,events.length)
+      input = gets.chomp.to_i
     end
+    puts events[input-1].description
   end
 
   def search_events
@@ -56,14 +48,18 @@ class NightSky::CLI
     search_events
   end
 
-  def list_events(events)
-    events.each do |e|
-      puts "#{e.date} - #{e.name}"
-    end
+  def set_year
+    puts "\nWhat year would you like to search?"
+    input = 0
+    input = gets.strip.to_i until input.between?(2017,2030)
+    self.year = input
+    NightSky::Scraper.new(input).make_events
   end
 
-  def show_event(input)
-
+  def introduction
+    puts "\nWelcome to The Night Sky"
+    puts "\nThis program can provide you with dates and information on a variety of astronomical events."
+    puts "To get started, we would like to know what year you are interesting in searching through."
   end
 
 end #class NightSky::CLI
