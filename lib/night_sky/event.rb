@@ -11,8 +11,17 @@ class NightSky::Event
     @@all << self
   end
 
-  def new_from_item(item)
-    
+  def self.new_from_item(item)
+    self.new(
+      item.search(".title-text").text.strip.gsub(".",""),
+      item.search(".date-text").text.strip,
+      2017,
+      item.search("p").text.strip
+    )
+  end
+
+  def self.all
+    @@all
   end
 
 end #class NightSky::Event
