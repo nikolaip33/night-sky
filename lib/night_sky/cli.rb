@@ -1,8 +1,8 @@
 class NightSky::CLI
 
   def call
-    puts "is this thing actually working now?"
+    page = NightSky::Scraper.new.get_page
+    binding.pry
   end
-
 
 end #class NightSky::CLI
