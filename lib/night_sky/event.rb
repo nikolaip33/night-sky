@@ -28,24 +28,24 @@ class NightSky::Event
     )
   end
 
-  def self.lunar_calendar
-
+  def self.lunar
+    select_by("moon")
   end
 
-  def meteor_showers
-
+  def self.meteor
+    select_by("meteor")
   end
 
-  def self.planetary_events
-
+  def self.planetary
+    all.select { |e| /Mercury|Venus|Earth|Mars|Jupiter|Saturn|Uranus|Neptune/  === e.name }
   end
 
   def seasonal
-
+    all.select { |e| e.name.downcase.include?("solstice") || e.name.downcase.include?("equinox") }
   end
 
   def eclipses
-
+    select_by("eclipse")
   end
 
   def self.select_by(term)

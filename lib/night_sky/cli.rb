@@ -15,7 +15,6 @@ class NightSky::CLI
     introduction
     set_year
     main_menu
-    search_events
   end
 
   def set_year
@@ -51,11 +50,38 @@ class NightSky::CLI
     puts "6. Search - Search By Keyword or Month"
     puts "   You can enter 'quit' or 'exit' at any time"
     puts "\nPlease make a selection:"
+    main_menu_nav
   end
 
   def main_menu_nav
     input = 0
     input = gets.chomp
+    if EXIT.include?(input.downcase)
+      quit
+    elsif input.to_i.between?(1,6)
+      case input.to_i
+      when 1
+        list_events(NightSky::Event.lunar)
+      when 2
+        list_events(NightSky::Event.meteor)
+      when 3
+        list_events(NightSky::Event.planetary)
+      when 4
+        list_events(NightSky::Event.seasonal)
+      when 5
+        list_events(NightSky::Event.ecplipse)
+      when 6
+        search_events
+      end
+    else
+      puts "Please make a valid selection."
+      main_menu_nav
+    end
+    main_menu_nav_again
+  end
+
+  def main_menu_nav_again
+
   end
 
   def search_events
