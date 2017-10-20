@@ -69,7 +69,7 @@ class NightSky::CLI
     puts "2. Meteor Showers - Information, Dates & Times"
     puts "3. Planetary Viewing - Best Gazing Dates & Times"
     puts "4. Seasonal - Equinox and Solstice Dates & Times"
-    puts "5. Eclpises - Information, Dates & Times"
+    puts "5. Eclipses - Information, Dates & Times"
     puts "6. Search - Search By Keyword or Month"
     puts "7. Change Year - Select a new Year for Events"
     puts "   You can enter 'change year' at any time"
@@ -130,7 +130,7 @@ class NightSky::CLI
   end
 
   def search_events
-    puts center("Search for an Astrononical Event in #{self.year}")
+    puts center("Search for an Astronomical Event in #{self.year}")
     puts wrap"\nSearch Tips: For the best results, consider searching by month, or by a single term with a high amount of specificity.  Multi-word searches may not return accurate results."
     puts "\nWhat would you like to search for?"
 
@@ -151,10 +151,10 @@ class NightSky::CLI
       end
     end
     puts "\nWould you like to search again?"
-    search_again
+    search_events_again
   end
 
-  def search_again
+  def search_events_again
     puts "Please enter 'yes', 'no' or 'exit'"
 
     input = gets.chomp
@@ -199,7 +199,7 @@ class NightSky::CLI
     elsif input.to_i.between?(1,events.length)
       more_details(events[input.to_i-1])
     else
-      puts "Please choose and event from the list."
+      puts "Please choose an event from the list."
       select_event(events)
     end
   end
