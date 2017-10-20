@@ -4,6 +4,7 @@ class NightSky::CLI
   MAIN = ["main", "menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
+  WIDTH = 70
   attr_accessor :ns, :year
 
   def call
@@ -32,14 +33,14 @@ class NightSky::CLI
   end
 
   def introduction
-    puts "\n---------------- Welcome to The Night Sky ------------------"
+    puts center("Welcome to The Night Sky")
     puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
     puts "\nOur records range from the year 2010 all the way through 2030."
     puts ""
   end
 
   def main_menu
-    puts "\n----------------- The Night Sky for #{self.year} -------------------"
+    puts center("The Night Sky for #{self.year}")
     puts "\n1. Lunar Calendar - Moon Phase Dates & Times"
     puts "2. Meteor Showers - Information, Dates & Times"
     puts "3. Planetary Viewing - Best Gazing Dates & Times"
@@ -53,16 +54,11 @@ class NightSky::CLI
   def main_menu_nav
     input = 0
     input = gets.chomp
-
-
   end
-
-  # Screens for each option off the menu - seems easiest to maintain but is the
-  # least dynamic.
 
 
   def search_events
-    puts "\n--------- Search for an Astrononical Event in #{self.year} ---------"
+    puts center("Search for an Astrononical Event in #{self.year}")
     puts "\n"
     puts "What would you like to search for?"
     input = gets.chomp.downcase
@@ -93,7 +89,7 @@ class NightSky::CLI
   end
 
   def display_option(title, term)
-    puts "\n------------- #{title} for the Year #{self.year} -------------"
+    puts center("#{title} for the Year #{self.year}")
     puts ""
     list_events(NightSky::Event.select_by("term"))
   end
@@ -116,7 +112,7 @@ class NightSky::CLI
     #formatter
     parts = event.details.split(".")
     title = parts.shift + " "
-    until title.length == 60
+    until title.length == WIDTH
       title << "-"
     end
     details = parts.join(".").strip << "."
@@ -126,13 +122,21 @@ class NightSky::CLI
     puts wrap(details)
   end
 
-  def wrap(s, width=58)
-	  s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
+  def center(string, c = "-")
+    title = " #{string} "
+    until title.length >= WIDTH
+      title.prepend(c)
+      title << (c)
+    end
+  end
+
+  def wrap(s)
+	  s.gsub(/(.{1,#{WIDTH}})(\s+|\Z)/, "\\1\n")
 	end
 
   def quit
-    puts "\n--------------------- Thank you! ---------------------------"
-    puts "           Get out and enjoy The Night Sky"
+    puts center("Thank you!", "-")
+    puts center("Get out and enjoy The Night Sky", " ")
     exit
   end
 

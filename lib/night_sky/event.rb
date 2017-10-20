@@ -28,20 +28,32 @@ class NightSky::Event
     )
   end
 
+  def self.lunar_calendar
+
+  end
+
+  def meteor_showers
+
+  end
+
+  def self.planetary_events
+
+  end
+
+  def seasonal
+
+  end
+
+  def eclipses
+
+  end
+
   def self.select_by(term)
     all.select { |e| e.name.downcase.include?(term.downcase) }
   end
 
   def self.search_by(term)
     all.select { |e| e.details.downcase.include?(term.downcase) }
-  end
-
-  def self.lunar_calendar
-    select_by("Moon")
-  end
-
-  def self.meteor_showers
-    select_by("Meteor")
   end
 
   def self.all
