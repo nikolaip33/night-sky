@@ -2,7 +2,7 @@ class NightSky::CLI
 
   attr_accessor :ns, :year
   EXIT = ["exit", "quit", "stop"]
-  MAIN = ["main", "menu"]
+  MAIN = ["main", "menu", "main menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
   WIDTH = 70
@@ -32,7 +32,9 @@ class NightSky::CLI
   end
 
   def introduction
+    puts ""
     puts center("*", " ")
+    puts center("*   nS  *", " ")
     puts center("*   *", " ")
     puts center("Welcome to The Night Sky")
     puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
@@ -77,17 +79,29 @@ class NightSky::CLI
       puts "Please make a valid selection."
       main_menu_nav
     end
+    puts "\nWould you like to return to the Main Menu?"
     main_menu_nav_again
   end
 
   def main_menu_nav_again
-
+    puts "Please enter 'yes', 'main menu', 'no', 'exit', or 'search'"
+    input = gets.chomp
+    if EXIT.include?(input.downcase)
+      quit
+    elsif YES.include?(input.downcase) || MAIN.include?(input.downcase)
+      main_menu
+    elsif NO.include?(input.downcase)
+      quit
+    elsif SEARCH.include?(input.downcase)
+      search_events
+    else
+      main_menu_nav_again
+    end
   end
 
   def search_events
     puts center("Search for an Astrononical Event in #{self.year}")
-    puts "\n"
-    puts "What would you like to search for?"
+    puts "\nWhat would you like to search for?"
     input = gets.chomp.downcase
     quit if EXIT.include?(input.downcase)
     results = NightSky::Event.search_by(input)
