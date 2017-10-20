@@ -5,6 +5,7 @@ class NightSky::CLI
   MAIN = ["main", "menu", "main menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
+  SEARCH = ["search"]
   WIDTH = 70
 
   def call
@@ -71,7 +72,7 @@ class NightSky::CLI
       when 4
         list_events(NightSky::Event.seasonal)
       when 5
-        list_events(NightSky::Event.ecplipse)
+        list_events(NightSky::Event.eclipses)
       when 6
         search_events
       end
@@ -86,12 +87,10 @@ class NightSky::CLI
   def main_menu_nav_again
     puts "Please enter 'yes', 'main menu', 'no', 'exit', or 'search'"
     input = gets.chomp
-    if EXIT.include?(input.downcase)
+    if EXIT.include?(input.downcase) || NO.include?(input.downcase)
       quit
     elsif YES.include?(input.downcase) || MAIN.include?(input.downcase)
       main_menu
-    elsif NO.include?(input.downcase)
-      quit
     elsif SEARCH.include?(input.downcase)
       search_events
     else
@@ -103,13 +102,18 @@ class NightSky::CLI
     puts center("Search for an Astrononical Event in #{self.year}")
     puts "\nWhat would you like to search for?"
     input = gets.chomp.downcase
-    quit if EXIT.include?(input.downcase)
-    results = NightSky::Event.search_by(input)
-    if results.length == 0
-      puts "\nSorry, 0 matches were found."
+    if EXIT.include?(input.downcase)
+      quit
+    elsif MAIN.include?(input.downcase)
+      main_menu
     else
-      puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
-      list_events(results)
+      results = NightSky::Event.search_by(input)
+      if results.length == 0
+        puts "\nSorry, 0 matches were found."
+      else
+        puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
+        list_events(results)
+      end
     end
     puts "\nWould you like to search again?"
     search_again

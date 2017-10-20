@@ -40,11 +40,11 @@ class NightSky::Event
     all.select { |e| /Mercury|Venus|Earth|Mars|Jupiter|Saturn|Uranus|Neptune/  === e.name }
   end
 
-  def seasonal
+  def self.seasonal
     all.select { |e| e.name.downcase.include?("solstice") || e.name.downcase.include?("equinox") }
   end
 
-  def eclipses
+  def self.eclipses
     select_by("eclipse")
   end
 
