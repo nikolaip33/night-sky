@@ -130,7 +130,7 @@ class NightSky::CLI
 
   def search_events
     puts center("Search for an Astrononical Event in #{self.year}")
-    puts wrap"\nSearch Tips: For the best results, consider searching by month, or by a single term with a high amount of specificty.  Multi-word searches may not return accurate results."
+    puts wrap"\nSearch Tips: For the best results, consider searching by month, or by a single term with a high amount of specificity.  Multi-word searches may not return accurate results."
     puts "\nWhat would you like to search for?"
     input = gets.chomp.downcase
     if EXIT.include?(input.downcase)
