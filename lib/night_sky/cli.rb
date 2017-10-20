@@ -7,8 +7,8 @@ class NightSky::CLI
   # edit once to change the logic on every instance of the various navs, since
   # making a nav method seemed nearly-impossible.
 
-  CHANGE = ["change", "year", "change year"]
-  EXIT = ["exit", "quit", "stop"]
+  CHANGE = ["change", "change year"]
+  EXIT = ["exit", "quit"]
   MAIN = ["main", "menu", "main menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
