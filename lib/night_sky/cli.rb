@@ -31,6 +31,7 @@ class NightSky::CLI
 
   def set_year
     puts "\nPlease enter a year between 2010 and 2030"
+
     input = nil
     input= gets.chomp
     if EXIT.include?(input.downcase)
@@ -132,6 +133,7 @@ class NightSky::CLI
     puts center("Search for an Astrononical Event in #{self.year}")
     puts wrap"\nSearch Tips: For the best results, consider searching by month, or by a single term with a high amount of specificity.  Multi-word searches may not return accurate results."
     puts "\nWhat would you like to search for?"
+
     input = gets.chomp.downcase
     if EXIT.include?(input.downcase)
       quit
@@ -154,6 +156,7 @@ class NightSky::CLI
 
   def search_again
     puts "Please enter 'yes', 'no' or 'exit'"
+
     input = gets.chomp
     if EXIT.include?(input.downcase)
       quit
