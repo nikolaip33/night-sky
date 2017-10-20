@@ -10,7 +10,7 @@ class NightSky::CLI
   CHANGE = ["change", "change year"]
   EXIT = ["exit", "quit"]
   MAIN = ["main", "menu", "main menu"]
-  YES = ["yes","y"]
+  YES = ["yes", "y"]
   NO = ["no", "n"]
   NONE = ["none", "no", "n"]
   SEARCH = ["search"]
