@@ -1,11 +1,11 @@
 class NightSky::CLI
 
+  attr_accessor :ns, :year
   EXIT = ["exit", "quit", "stop"]
   MAIN = ["main", "menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
   WIDTH = 70
-  attr_accessor :ns, :year
 
   def call
     start
@@ -88,12 +88,6 @@ class NightSky::CLI
     end
   end
 
-  def display_option(title, term)
-    puts center("#{title} for the Year #{self.year}")
-    puts ""
-    list_events(NightSky::Event.select_by("term"))
-  end
-
   # methods for populating and formatting screens
 
   def list_events(events)
@@ -103,9 +97,20 @@ class NightSky::CLI
     end
 
     puts "Which event would you like more information for?"
+    select_event(events)
+  end
+
+  def select_event(events)
     input = 0
-    input = gets.chomp.to_i until input.between?(1,events.length)
-    more_details(events[input-1])
+    input = gets.chomp
+    if EXIT.include?(input.downcase)
+      quit
+    elsif input.to_i.between?(1,events.length)
+      more_details(events[input.to_i-1])
+    else
+      puts "Please choose and event from the list."
+      select_event(events)
+    end
   end
 
   def more_details(event)
@@ -128,6 +133,7 @@ class NightSky::CLI
       title.prepend(c)
       title << (c)
     end
+    title.prepend("\n")
   end
 
   def wrap(s)
