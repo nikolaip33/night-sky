@@ -114,7 +114,7 @@ class NightSky::CLI
   end
 
   def main_menu_nav_again
-    puts "Please enter 'yes', 'main menu', 'no', 'exit', or 'search'"
+    puts "Please enter 'yes', 'main menu', 'no', 'exit', or 'search'."
     input = gets.chomp
     if EXIT.include?(input.downcase) || NO.include?(input.downcase)
       quit
@@ -155,7 +155,7 @@ class NightSky::CLI
   end
 
   def search_events_again
-    puts "Please enter 'yes', 'no' or 'exit'"
+    puts "Please enter 'yes', 'no' or 'exit'."
 
     input = gets.chomp
     if EXIT.include?(input.downcase)
@@ -169,7 +169,7 @@ class NightSky::CLI
     elsif CHANGE.include?(input.downcase)
       change_year
     else
-      search_again
+      search_events_again
     end
   end
 
@@ -242,7 +242,7 @@ class NightSky::CLI
 	end
 
   def quit
-    puts center("Thank you!", "-")
+    puts center("Thank You!", "-")
     puts center("Get out and enjoy The Night Sky", " ")
     puts center("*   *", " ")
     puts center("*", " ")
