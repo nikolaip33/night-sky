@@ -51,6 +51,8 @@ class NightSky::CLI
     puts "4. Seasonal - Equinox and Solstice Dates & Times"
     puts "5. Eclpises - Information, Dates & Times"
     puts "6. Search - Search By Keyword or Month"
+    puts "7. Change Year - Select a new Year for Events"
+    puts "   You can enter 'change year' at any time"
     puts "   You can enter 'quit' or 'exit' at any time"
     puts "\nPlease make a selection:"
     main_menu_nav
@@ -75,6 +77,8 @@ class NightSky::CLI
         list_events(NightSky::Event.eclipses)
       when 6
         search_events
+      when 7
+        change_year
       end
     else
       puts "Please make a valid selection."
