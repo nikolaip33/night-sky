@@ -22,7 +22,7 @@ class NightSky::CLI
     puts "Please enter a year from between 2010 and 2030"
     input = nil
     input = gets.chomp
-    if EXIT.include?(input)
+    if EXIT.include?(input.downcase)
       quit
     elsif input.to_i.between?(2010,2030)
       self.year = input
@@ -33,6 +33,8 @@ class NightSky::CLI
   end
 
   def introduction
+    puts center("*", " ")
+    puts center("*   *", " ")
     puts center("Welcome to The Night Sky")
     puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
     puts "\nOur records range from the year 2010 all the way through 2030."
@@ -56,13 +58,12 @@ class NightSky::CLI
     input = gets.chomp
   end
 
-
   def search_events
     puts center("Search for an Astrononical Event in #{self.year}")
     puts "\n"
     puts "What would you like to search for?"
     input = gets.chomp.downcase
-    exit if EXIT.include?(input.downcase)
+    quit if EXIT.include?(input.downcase)
     results = NightSky::Event.search_by(input)
     if results.length == 0
       puts "\nSorry, 0 matches were found."
@@ -143,6 +144,8 @@ class NightSky::CLI
   def quit
     puts center("Thank you!", "-")
     puts center("Get out and enjoy The Night Sky", " ")
+    puts center("*   *", " ")
+    puts center("*", " ")
     exit
   end
 
