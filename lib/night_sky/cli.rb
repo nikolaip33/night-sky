@@ -12,22 +12,28 @@ class NightSky::CLI
     introduction
     set_year
     main_menu
-    search_events
   end
 
   def set_year
-    puts "\nWhat year would you like information for?"
-    input = 0
-    input = gets.strip.to_i until input.between?(2010,2030)
-    self.year = input
-    NightSky::Scraper.new(input).make_events
+    puts "Please enter a year from between 2010 and 2030"
+    input = nil
+    input = gets.chomp
+    if EXIT.include?(input)
+      quit
+    elsif input.to_i.between?(2010,2030)
+      self.year = input
+      NightSky::Scraper.new(input).make_events
+    else
+      set_year
+    end
   end
 
   def introduction
     puts "\n---------------- Welcome to The Night Sky ------------------"
     puts "\nThis program can provide you with dates and information on a variety of astronomical events."
     puts "To get started, we would like to know what year you are interested in searching through."
-    puts "We have records that range from the year 2010 all the way through 2030."
+    puts "\We have records that range from the year 2010 all the way through 2030."
+    puts ""
   end
 
   def main_menu
@@ -38,6 +44,14 @@ class NightSky::CLI
     puts "4. Seasonal - Equinox and Solstice Dates & Times"
     puts "5. Eclpises - Information, Dates & Times"
     puts "6. Search - Search By Keyword or Month"
+  end
+
+  def main_menu_nav
+    input = 0
+    input = gets.chomp
+      puts "Please make a valid selection"
+      gets.chomp.to_i
+
   end
 
   # Screens for each option off the menu - seems easiest to maintain but is the
@@ -57,10 +71,10 @@ class NightSky::CLI
     search_events
   end
 
-  def lunar_calendar
-    puts "\n------------- Lunar Calendar for the Year #{self.year} -------------"
+  def display_option(title, term)
+    puts "\n------------- #{title} for the Year #{self.year} -------------"
     puts ""
-    list_events(ns.select_by("moon"))
+    list_events(ns.select_by("term"))
   end
 
   # methods for populating and formatting screens
@@ -87,7 +101,9 @@ class NightSky::CLI
   end
 
   def quit
-    puts "\nGet out and enjoy The Night Sky"
+    puts "\n--------------------- Thank you! ---------------------------"
+    puts "           Get out and enjoy The Night Sky"
+    exit
   end
 
 end #class NightSky::CLI
