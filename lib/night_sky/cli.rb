@@ -1,10 +1,12 @@
 class NightSky::CLI
 
   EXIT = ["exit", "quit", "stop"]
+  MAIN = ["main", "menu"]
+  YES = ["yes","y"]
+  NO = ["no", "n"]
   attr_accessor :ns, :year
 
   def call
-    self.ns = NightSky::Event #makes calling Event class methods cleaner
     start
   end
 
@@ -44,37 +46,41 @@ class NightSky::CLI
     puts "4. Seasonal - Equinox and Solstice Dates & Times"
     puts "5. Eclpises - Information, Dates & Times"
     puts "6. Search - Search By Keyword or Month"
+    puts "   You can enter 'quit' or 'exit' at any time"
+    puts "\nPlease make a selection:"
   end
 
   def main_menu_nav
     input = 0
     input = gets.chomp
-      puts "Please make a valid selection"
-      gets.chomp.to_i
+
 
   end
 
   # Screens for each option off the menu - seems easiest to maintain but is the
   # least dynamic.
 
+  def search_events_container
+
+  end
+
   def search_events
     puts "\n--------- Search for an Astrononical Event in #{self.year} ---------"
     input = gets.chomp.downcase
     exit if EXIT.include?(input.downcase)
-    results = ns.search_by(input)
+    results = NightSky::Event.search_by(input)
     if results.length == 0
       puts "\nSorry, 0 matches were found."
     else
       puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
       list_events(results)
     end
-    search_events
   end
 
   def display_option(title, term)
     puts "\n------------- #{title} for the Year #{self.year} -------------"
     puts ""
-    list_events(ns.select_by("term"))
+    list_events(NightSky::Event.select_by("term"))
   end
 
   # methods for populating and formatting screens
