@@ -1,6 +1,12 @@
 class NightSky::CLI
 
-  attr_accessor :ns, :year
+  attr_accessor :year
+
+  # class constants - these are used in lieu of having to do constant == comparisons
+  # with a bunch of ||'s.  Plus it gives me the added benefit of only having to
+  # edit once to change the logic on every instance of the various navs, since
+  # making a nav method seemed nearly-impossible.
+
   CHANGE = ["change", "year", "change year"]
   EXIT = ["exit", "quit", "stop"]
   MAIN = ["main", "menu", "main menu"]
@@ -8,22 +14,25 @@ class NightSky::CLI
   NO = ["no", "n"]
   NONE = ["none", "no", "n"]
   SEARCH = ["search"]
+
+  # controls the width of #wrap and the width of #center to give the CLI a
+  # uniform width.
+
   WIDTH = 70
 
   def call
-    start
-  end
-
-  def start
     introduction
     set_year
     main_menu
   end
 
+  # gets a year from the user and scrapes the correct page. the internal @year
+  # is set here just to make labeling easier.
+
   def set_year
-    puts "\nPlease enter a year from between 2010 and 2030"
+    puts "\nPlease enter a year between 2010 and 2030"
     input = nil
-    input = gets.chomp
+    input= gets.chomp
     if EXIT.include?(input.downcase)
       quit
     elsif input.to_i.between?(2010,2030)
@@ -37,6 +46,7 @@ class NightSky::CLI
   def change_year
     puts ""
     puts center("Change Year - Currently #{self.year}")
+    puts wrap("\nYou can only view one year worth of data at a time currently. If you change the year, the previous results will no longer appear in your searches unless you switch back again.")
     NightSky::Event.reset!
     set_year
     main_menu
@@ -190,6 +200,9 @@ class NightSky::CLI
     end
   end
 
+  # this seems a bit janky here, but there doesn't seem like a good place to
+  # rip it apart. Plus, I'm stylizing the title here as well so it seemed fine.
+
   def more_details(event)
     #formatter
     parts = event.details.split(".")
@@ -204,6 +217,10 @@ class NightSky::CLI
     puts wrap(details)
   end
 
+  # makes Title strings have their accent without having to code it into the actual string
+  # makes them a set width by filling the missing space on each side with a character
+  # default is -
+
   def center(string, c = "-")
     title = " #{string} "
     until title.length >= WIDTH
@@ -212,6 +229,9 @@ class NightSky::CLI
     end
     title.prepend("\n")
   end
+
+  # not my method
+  # https://www.safaribooksonline.com/library/view/ruby-cookbook/0596523696/ch01s15.html
 
   def wrap(s)
 	  s.gsub(/(.{1,#{WIDTH}})(\s+|\Z)/, "\\1\n")
