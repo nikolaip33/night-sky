@@ -14,6 +14,7 @@ class NightSky::CLI
     introduction
     set_year
     main_menu
+    search_events
   end
 
   def set_year
@@ -32,9 +33,8 @@ class NightSky::CLI
 
   def introduction
     puts "\n---------------- Welcome to The Night Sky ------------------"
-    puts "\nThis program can provide you with dates and information on a variety of astronomical events."
-    puts "To get started, we would like to know what year you are interested in searching through."
-    puts "\We have records that range from the year 2010 all the way through 2030."
+    puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
+    puts "\nOur records range from the year 2010 all the way through 2030."
     puts ""
   end
 
@@ -60,12 +60,11 @@ class NightSky::CLI
   # Screens for each option off the menu - seems easiest to maintain but is the
   # least dynamic.
 
-  def search_events_container
-
-  end
 
   def search_events
     puts "\n--------- Search for an Astrononical Event in #{self.year} ---------"
+    puts "\n"
+    puts "What would you like to search for?"
     input = gets.chomp.downcase
     exit if EXIT.include?(input.downcase)
     results = NightSky::Event.search_by(input)
@@ -74,6 +73,22 @@ class NightSky::CLI
     else
       puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
       list_events(results)
+    end
+    puts "\nWould you like to search again?"
+    search_again
+  end
+
+  def search_again
+    puts "Please enter 'yes', 'no' or 'exit'"
+    input = gets.chomp
+    if EXIT.include?(input.downcase)
+      quit
+    elsif YES.include?(input.downcase)
+      search_events
+    elsif NO.include?(input.downcase)
+      main_menu
+    else
+      search_again
     end
   end
 
@@ -98,13 +113,22 @@ class NightSky::CLI
   end
 
   def more_details(event)
+    #formatter
     parts = event.details.split(".")
-    title = parts.shift
+    title = parts.shift + " "
+    until title.length == 60
+      title << "-"
+    end
     details = parts.join(".").strip << "."
 
-    puts "\n#{title} -------------------"
-    puts details
+    #writer
+    puts "\n#{title}"
+    puts wrap(details)
   end
+
+  def wrap(s, width=58)
+	  s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
+	end
 
   def quit
     puts "\n--------------------- Thank you! ---------------------------"
