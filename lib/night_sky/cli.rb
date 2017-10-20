@@ -6,7 +6,7 @@ class NightSky::CLI
   MAIN = ["main", "menu", "main menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
-  NONE = ["none", "no"]
+  NONE = ["none", "no", "n"]
   SEARCH = ["search"]
   WIDTH = 70
 
@@ -21,7 +21,7 @@ class NightSky::CLI
   end
 
   def set_year
-    puts "Please enter a year from between 2010 and 2030"
+    puts "\nPlease enter a year from between 2010 and 2030"
     input = nil
     input = gets.chomp
     if EXIT.include?(input.downcase)
@@ -36,7 +36,7 @@ class NightSky::CLI
 
   def change_year
     puts ""
-    puts center("Change Year")
+    puts center("Change Year - Currently #{self.year}")
     NightSky::Event.reset!
     set_year
     main_menu
@@ -50,7 +50,6 @@ class NightSky::CLI
     puts center("Welcome to The Night Sky")
     puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
     puts "\nOur records range from the year 2010 all the way through 2030."
-    puts ""
   end
 
   def main_menu
@@ -78,7 +77,7 @@ class NightSky::CLI
       search_events
     elsif CHANGE.include?(input.downcase)
       change_year
-    elsif input.to_i.between?(1,6)
+    elsif input.to_i.between?(1,7)
       case input.to_i
       when 1
         list_events(NightSky::Event.lunar)
@@ -163,12 +162,13 @@ class NightSky::CLI
   # methods for populating and formatting screens
 
   def list_events(events)
+    puts " "
     events.each.with_index(1) do |e, i|
       puts " #{i}. #{e.date} - #{e.name}" if i < 10
       puts "#{i}. #{e.date} - #{e.name}" if i >= 10
     end
 
-    puts "Which event would you like more information for?"
+    puts "\nWhich event would you like more information for?"
     select_event(events)
   end
 
