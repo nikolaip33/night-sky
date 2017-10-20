@@ -1,9 +1,11 @@
-<<<<<<< HEAD
 # NightSky
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/night_sky`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This Gem provides dates and times for the major astrological events starting from 2010 and ending in 2030.  The data is presented in a CLI format with both a numbered list tree navigational system, as well as a free-form search function.  While the information is pretty minimal, you can find information about:
+- The Lunar Cycle
+- Meteor Shower dates and times
+- Solstice and Equinox dates
+- Planetary viewing dates
+- Dates of Solar and Lunar eclipses
 
 ## Installation
 
@@ -23,7 +25,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This Gem can be used as-is as a astronomy quick reference guide, or extended with additional functionality if you see fit.
 
 ## Development
 
