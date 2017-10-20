@@ -1,10 +1,12 @@
 class NightSky::CLI
 
   attr_accessor :ns, :year
+  CHANGE = ["change", "year", "change year"]
   EXIT = ["exit", "quit", "stop"]
   MAIN = ["main", "menu", "main menu"]
   YES = ["yes","y"]
   NO = ["no", "n"]
+  NONE = ["none", "no"]
   SEARCH = ["search"]
   WIDTH = 70
 
@@ -32,6 +34,14 @@ class NightSky::CLI
     end
   end
 
+  def change_year
+    puts ""
+    puts center("Change Year")
+    NightSky::Event.reset!
+    set_year
+    main_menu
+  end
+
   def introduction
     puts ""
     puts center("*", " ")
@@ -53,6 +63,7 @@ class NightSky::CLI
     puts "6. Search - Search By Keyword or Month"
     puts "7. Change Year - Select a new Year for Events"
     puts "   You can enter 'change year' at any time"
+    puts "   You can enter 'search' at any time"
     puts "   You can enter 'quit' or 'exit' at any time"
     puts "\nPlease make a selection:"
     main_menu_nav
@@ -63,6 +74,10 @@ class NightSky::CLI
     input = gets.chomp
     if EXIT.include?(input.downcase)
       quit
+    elsif SEARCH.include?(input.downcase)
+      search_events
+    elsif CHANGE.include?(input.downcase)
+      change_year
     elsif input.to_i.between?(1,6)
       case input.to_i
       when 1
@@ -97,6 +112,8 @@ class NightSky::CLI
       main_menu
     elsif SEARCH.include?(input.downcase)
       search_events
+    elsif CHANGE.include?(input.downcase)
+      change_year
     else
       main_menu_nav_again
     end
@@ -110,6 +127,8 @@ class NightSky::CLI
       quit
     elsif MAIN.include?(input.downcase)
       main_menu
+    elsif CHANGE.include?(input.downcase)
+      change_year
     else
       results = NightSky::Event.search_by(input)
       if results.length == 0
@@ -132,6 +151,10 @@ class NightSky::CLI
       search_events
     elsif NO.include?(input.downcase)
       main_menu
+    elsif SEARCH.include?(input.downcase)
+      search_events
+    elsif CHANGE.include?(input.downcase)
+      change_year
     else
       search_again
     end
@@ -154,6 +177,11 @@ class NightSky::CLI
     input = gets.chomp
     if EXIT.include?(input.downcase)
       quit
+    elsif NONE.include?(input.downcase)
+    elsif SEARCH.include?(input.downcase)
+      search_events
+    elsif CHANGE.include?(input.downcase)
+      change_year
     elsif input.to_i.between?(1,events.length)
       more_details(events[input.to_i-1])
     else
