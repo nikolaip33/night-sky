@@ -218,7 +218,7 @@ class NightSky::CLI
 
     #writer
     puts "\n#{title}"
-    puts wrap(details)
+    puts wrap(details).prepend
   end
 
   # makes Title strings have their accent without having to code it into the actual string

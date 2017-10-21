@@ -1,5 +1,7 @@
 class NightSky::Scraper
+
   attr_reader :year
+
   def initialize(year="2017")
     @year = year
   end
