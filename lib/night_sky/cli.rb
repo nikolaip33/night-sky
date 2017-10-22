@@ -48,6 +48,7 @@ class NightSky::CLI
     puts ""
     puts center("Change Year - Currently #{self.year}")
     puts wrap("\nYou can only view one year worth of data at a time currently. If you change the year, the previous results will no longer appear in your searches unless you switch back again.")
+    puts center("")
     NightSky::Event.reset!
     set_year
     main_menu
@@ -61,6 +62,7 @@ class NightSky::CLI
     puts center("Welcome to The Night Sky")
     puts wrap("\nThis program can provide you with dates and information on a variety of astronomical events. To get started, we would like to know what year you are interested in searching through.")
     puts "\nOur records range from the year 2010 all the way through 2030."
+    puts center("")
   end
 
   def main_menu
@@ -75,6 +77,7 @@ class NightSky::CLI
     puts "   You can enter 'change year' at any time"
     puts "   You can enter 'search' at any time"
     puts "   You can enter 'quit' or 'exit' at any time"
+    puts center("")
     puts "\nPlease make a selection:"
     main_menu_nav
   end
@@ -91,15 +94,15 @@ class NightSky::CLI
     elsif input.to_i.between?(1,7)
       case input.to_i
       when 1
-        list_events(NightSky::Event.lunar)
+        list_events(NightSky::Event.lunar, "Lunar Calendar")
       when 2
-        list_events(NightSky::Event.meteor)
+        list_events(NightSky::Event.meteor, "Meteor Showers")
       when 3
-        list_events(NightSky::Event.planetary)
+        list_events(NightSky::Event.planetary, "Planetary Viewing")
       when 4
-        list_events(NightSky::Event.seasonal)
+        list_events(NightSky::Event.seasonal, "Seasonal")
       when 5
-        list_events(NightSky::Event.eclipses)
+        list_events(NightSky::Event.eclipses, "Eclipses")
       when 6
         search_events
       when 7
@@ -132,9 +135,10 @@ class NightSky::CLI
   def search_events
     puts center("Search for an Astronomical Event in #{self.year}")
     puts wrap"\nSearch Tips: For the best results, consider searching by month, or by a single term with a high amount of specificity.  Multi-word searches may not return accurate results."
+    puts center("")
     puts "\nWhat would you like to search for?"
 
-    input = gets.chomp.downcase
+    input = gets.chomp
     if EXIT.include?(input.downcase)
       quit
     elsif MAIN.include?(input.downcase)
@@ -142,12 +146,12 @@ class NightSky::CLI
     elsif CHANGE.include?(input.downcase)
       change_year
     else
-      results = NightSky::Event.search_by(input)
+      results = NightSky::Event.search_by(input.downcase)
       if results.length == 0
         puts "\nSorry, 0 matches were found."
       else
         puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
-        list_events(results)
+        list_events(results, input)
       end
     end
     puts "\nWould you like to search again?"
@@ -164,6 +168,8 @@ class NightSky::CLI
       search_events
     elsif NO.include?(input.downcase)
       main_menu
+    elsif MAIN.include?(input.downcase)
+      main_menu
     elsif SEARCH.include?(input.downcase)
       search_events
     elsif CHANGE.include?(input.downcase)
@@ -175,12 +181,14 @@ class NightSky::CLI
 
   # methods for populating and formatting list screens
 
-  def list_events(events)
-    puts " "
+  def list_events(events, title)
+    puts center("Search Results for: #{title}")
+    puts ""
     events.each.with_index(1) do |e, i|
       puts " #{i}. #{e.date} - #{e.name}" if i < 10
       puts "#{i}. #{e.date} - #{e.name}" if i >= 10
     end
+    puts center("")
 
     puts "\nWhich event would you like more information for?"
     select_event(events)
@@ -192,6 +200,8 @@ class NightSky::CLI
     if EXIT.include?(input.downcase)
       quit
     elsif NONE.include?(input.downcase)
+    elsif MAIN.include?(input.downcase)
+      main_menu
     elsif SEARCH.include?(input.downcase)
       search_events
     elsif CHANGE.include?(input.downcase)
@@ -218,7 +228,8 @@ class NightSky::CLI
 
     #writer
     puts "\n#{title}"
-    puts wrap(details).prepend
+    puts wrap(details).prepend("\n")
+    puts center("")
   end
 
   # makes Title strings have their accent without having to code it into the actual string
@@ -226,12 +237,12 @@ class NightSky::CLI
   # default is -
 
   def center(string, c = "-")
-    title = " #{string} "
-    until title.length >= WIDTH
-      title.prepend(c)
-      title << (c)
+    string = " #{string} " if string != ""
+    until string.length >= WIDTH
+      string.prepend(c)
+      string << (c)
     end
-    title.prepend("\n")
+    string.prepend("\n")
   end
 
   # not my method
