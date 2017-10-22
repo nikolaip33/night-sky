@@ -96,13 +96,13 @@ class NightSky::CLI
       when 1
         list_events(NightSky::Event.lunar, "Lunar Calendar - #{self.year}")
       when 2
-        list_events(NightSky::Event.meteor, "Meteor Showers")
+        list_events(NightSky::Event.meteor, "Meteor Showers - #{self.year}")
       when 3
-        list_events(NightSky::Event.planetary, "Planetary Viewing")
+        list_events(NightSky::Event.planetary, "Planetary Viewing - #{self.year}")
       when 4
-        list_events(NightSky::Event.seasonal, "Seasonal")
+        list_events(NightSky::Event.seasonal, "Seasonal - #{self.year}")
       when 5
-        list_events(NightSky::Event.eclipses, "Eclipses")
+        list_events(NightSky::Event.eclipses, "Eclipses - #{self.year}")
       when 6
         search_events
       when 7
@@ -182,7 +182,7 @@ class NightSky::CLI
   # methods for populating and formatting list screens
 
   def list_events(events, title)
-    puts center("#{title}")
+    puts center(title)
     puts ""
     events.each.with_index(1) do |e, i|
       puts " #{i}. #{e.date} - #{e.name}" if i < 10
