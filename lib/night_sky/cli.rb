@@ -94,7 +94,7 @@ class NightSky::CLI
     elsif input.to_i.between?(1,7)
       case input.to_i
       when 1
-        list_events(NightSky::Event.lunar, "Lunar Calendar")
+        list_events(NightSky::Event.lunar, "Lunar Calendar - #{self.year}")
       when 2
         list_events(NightSky::Event.meteor, "Meteor Showers")
       when 3
@@ -151,7 +151,7 @@ class NightSky::CLI
         puts "\nSorry, 0 matches were found."
       else
         puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
-        list_events(results, input)
+        list_events(results, "Search Results for: #{input}")
       end
     end
     puts "\nWould you like to search again?"
@@ -182,7 +182,7 @@ class NightSky::CLI
   # methods for populating and formatting list screens
 
   def list_events(events, title)
-    puts center("Search Results for: #{title}")
+    puts center("#{title}")
     puts ""
     events.each.with_index(1) do |e, i|
       puts " #{i}. #{e.date} - #{e.name}" if i < 10
