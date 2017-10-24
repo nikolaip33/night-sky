@@ -150,8 +150,8 @@ class NightSky::CLI
       if results.length == 0
         puts "\nSorry, 0 matches were found."
       else
-        puts results.length == 1 ? "\nWe found 1 match:" : "\nWe found #{results.length} matches:"
-        list_events(results, "Search Results for: #{input}")
+        msg = results.length == 1 ? "We found 1 match for:" : "We found #{results.length} matches for:"
+        list_events(results, "#{msg} #{input}")
       end
     end
     puts "\nWould you like to search again?"
