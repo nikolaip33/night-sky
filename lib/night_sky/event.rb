@@ -7,16 +7,10 @@ class NightSky::Event
   def initialize(name, date, year, details)
     @name = name
     @date_full = date
-    @date = abreviate_date(date)
+    @date = date[0..2]
     @year = year
     @details = details
     @@all << self
-  end
-
-  def abreviate_date(date)
-    parts = date.split(" ")
-    parts[0] = parts[0][0..2]
-    parts.join(" ")
   end
 
   def self.new_from_item(item, year)
