@@ -1,6 +1,6 @@
 class NightSky::CLI
 
-  attr_accessor :year
+  attr_accessor :year, :previous_title, :previous_events
 
   # class constants - these are used in lieu of having to do constant == comparisons
   # with a bunch of ||'s.  Plus it gives me the added benefit of only having to
@@ -14,6 +14,7 @@ class NightSky::CLI
   NO = ["no", "n"]
   NONE = ["none", "no", "n"]
   SEARCH = ["search"]
+  PREVIOUS = ["back", "previous"]
 
   # controls the width of #wrap and the width of #center to give the CLI a
   # uniform width.
@@ -127,6 +128,10 @@ class NightSky::CLI
       search_events
     elsif CHANGE.include?(input.downcase)
       change_year
+    elsif PREVIOUS.include?(input.downcase)
+      previous_results
+      puts "\nWould you like to return to the Main Menu?"
+      main_menu_nav_again
     else
       main_menu_nav_again
     end
@@ -174,6 +179,10 @@ class NightSky::CLI
       search_events
     elsif CHANGE.include?(input.downcase)
       change_year
+    elsif PREVIOUS.include?(input.downcase)
+      previous_results
+      puts "\nWould you like to search again?"
+      search_events_again
     else
       search_events_again
     end
@@ -182,6 +191,9 @@ class NightSky::CLI
   # methods for populating and formatting list screens
 
   def list_events(events, title)
+    self. previous_events = events
+    self.previous_title = title
+
     puts center(title)
     puts ""
     events.each.with_index(1) do |e, i|
@@ -212,6 +224,10 @@ class NightSky::CLI
       puts "Please choose an event from the list."
       select_event(events)
     end
+  end
+
+  def previous_results
+    list_events(self.previous_events, self.previous_title)
   end
 
   # this seems a bit janky here, but there doesn't seem like a good place to
